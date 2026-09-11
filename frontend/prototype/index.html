@@ -12,61 +12,125 @@
 <body>
 
   <!-- ======================================================== -->
-  <!-- SUPERVISOR EXHIBITION PRESENTATION CONTROLS (TOP BAR)    -->
+  <!-- RENOVATED CAPSTONE EXHIBITION CONSOLE & TELEMETRY DECK   -->
   <!-- ======================================================== -->
-  <div class="presentation-bar">
-    <div class="presentation-title">
-      <div class="w-7 h-7 rounded-lg bg-sky-500 flex items-center justify-center text-white font-bold">🩺</div>
-      <div>
-        <div class="text-[14px] font-bold text-white flex items-center gap-2">
-          MediCheck AI
-          <span class="brand-badge">CAPSTONE DEMO</span>
+  <div class="presentation-console">
+    <!-- Row 1: Brand, Live AI Telemetry, and Interactive Demo Actions -->
+    <div class="console-top-row">
+      <div class="console-brand">
+        <div class="brand-icon-box">🩺</div>
+        <div>
+          <div class="text-[14px] font-bold text-white flex items-center gap-2">
+            MediCheck AI
+            <span class="brand-badge">CAPSTONE CONSOLE</span>
+            <span class="live-pill"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> AI ONLINE</span>
+          </div>
+          <div class="text-[11px] text-slate-400">AI-Assisted Medicine Packaging Verification & Safety Support</div>
         </div>
-        <div class="text-[11px] text-slate-400">Decision-Support Medicine Verification & Safety Prototype</div>
+      </div>
+
+      <!-- Real-Time AI Telemetry Metrics -->
+      <div class="telemetry-strip">
+        <div class="telemetry-item">⚡ LATENCY: <strong id="telem-latency">38ms</strong></div>
+        <div class="telemetry-item">🎯 YOLOv8: <strong>0.948 mAP</strong></div>
+        <div class="telemetry-item">📝 EasyOCR: <strong>98.2% CONF</strong></div>
+        <div class="telemetry-item">🛡️ GUARDRAILS: <strong class="text-emerald-400">ACTIVE</strong></div>
+      </div>
+
+      <!-- Presentation Master Controls -->
+      <div class="console-actions">
+        <button id="btn-auto-tour" onclick="toggleAutoTour()" class="demo-btn accent" title="Automated guided walkthrough for supervisors">
+          <span>▶</span> Auto Walkthrough
+        </button>
+        <button id="btn-audio-toggle" onclick="toggleAudio()" class="demo-btn" title="Toggle synthesized haptic/sound FX">
+          🔊 Audio: ON
+        </button>
+        <button id="btn-zoom" onclick="cycleZoom()" class="demo-btn" title="Scale phone frame for laptop screens">
+          🔍 Scale: 100%
+        </button>
+        <button onclick="openModal('modal-architecture')" class="demo-btn primary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Tech Architecture
+        </button>
       </div>
     </div>
 
-    <!-- Quick Jump to Any of the 13 Screens -->
-    <div class="screen-pills">
-      <button class="pill-btn active" data-screen="screen-splash">1. Splash</button>
-      <button class="pill-btn" data-screen="screen-home">2. Home</button>
-      <button class="pill-btn" data-screen="screen-scan">3. Scan</button>
-      <button class="pill-btn" data-screen="screen-pipeline">4. AI Pipeline</button>
-      <button class="pill-btn" data-screen="screen-processing">5. Processing</button>
-      <button class="pill-btn" data-screen="screen-extracted">6. Extracted Data</button>
-      <button class="pill-btn" data-screen="screen-verification">7. Verification Result</button>
-      <button class="pill-btn" data-screen="screen-medications">8. My Medications</button>
-      <button class="pill-btn" data-screen="screen-safety">9. Safety & Duplicate</button>
-      <button class="pill-btn" data-screen="screen-history">10. History</button>
-      <button class="pill-btn" data-screen="screen-chatbot">11. AI Assistant</button>
-      <button class="pill-btn" data-screen="screen-profile">12. Profile</button>
-      <button class="pill-btn" data-screen="screen-about">13. Disclaimer</button>
+    <!-- Row 2: Categorized Workflow Stages & Dataset Presets -->
+    <div class="console-nav-row">
+      <!-- Workflow Stage Tabs -->
+      <div class="stage-tabs">
+        <button class="stage-tab active" data-stage="overview" onclick="jumpToStage('overview')">
+          <span>📱</span> 1. Overview
+        </button>
+        <button class="stage-tab" data-stage="vision" onclick="jumpToStage('vision')">
+          <span>📷</span> 2. Vision & OCR
+        </button>
+        <button class="stage-tab" data-stage="verification" onclick="jumpToStage('verification')">
+          <span>🔍</span> 3. Verification
+        </button>
+        <button class="stage-tab" data-stage="safety" onclick="jumpToStage('safety')">
+          <span>🛡️</span> 4. Duplicate Safety
+        </button>
+        <button class="stage-tab" data-stage="intelligence" onclick="jumpToStage('intelligence')">
+          <span>🤖</span> 5. AI Assistant
+        </button>
+
+        <!-- Direct Screen Dropdown for instant access to all 13 screens -->
+        <select id="screen-select-dropdown" onchange="navigateTo(this.value)" class="bg-slate-800 text-sky-300 text-[11px] font-semibold border border-slate-700 rounded-full px-3 py-1 outline-none cursor-pointer hover:border-sky-400">
+          <option value="screen-splash">Screen 1: Splash Screen</option>
+          <option value="screen-home">Screen 2: Home Dashboard</option>
+          <option value="screen-scan">Screen 3: Camera Viewfinder</option>
+          <option value="screen-pipeline">Screen 4: AI Computer Vision Pipeline</option>
+          <option value="screen-processing">Screen 5: Radar Processing</option>
+          <option value="screen-extracted">Screen 6: Extracted Data (Editable)</option>
+          <option value="screen-verification">Screen 7: Verification Result (4/5)</option>
+          <option value="screen-medications">Screen 8: My Medications Profile</option>
+          <option value="screen-safety">Screen 9: Duplicate Active Ingredient</option>
+          <option value="screen-history">Screen 10: Scan History</option>
+          <option value="screen-chatbot">Screen 11: MediCheck AI Chatbot</option>
+          <option value="screen-profile">Screen 12: Profile & Settings</option>
+          <option value="screen-about">Screen 13: Disclaimer & Architecture</option>
+        </select>
+      </div>
+
+      <!-- Presets Selector with Clear Demonstration Badges -->
+      <div class="preset-strip">
+        <span class="text-[10px] uppercase font-bold text-slate-400 pl-1">Exhibit Preset:</span>
+        <button class="preset-chip active" data-preset="glycomet" onclick="switchPreset('glycomet')">
+          Glycomet (4/5 Attention)
+        </button>
+        <button class="preset-chip" data-preset="dolo" onclick="switchPreset('dolo')">
+          Dolo 650 (5/5 Matched)
+        </button>
+        <button class="preset-chip" data-preset="augmentin" onclick="switchPreset('augmentin')">
+          Augmentin (Curated Interaction)
+        </button>
+      </div>
     </div>
 
-    <!-- Demonstration Action Tools -->
-    <div class="action-btns">
-      <div class="flex items-center gap-1 bg-slate-800 p-1 rounded-lg border border-slate-700">
-        <span class="text-[11px] text-slate-400 px-1 font-semibold">Preset:</span>
-        <button class="preset-btn active px-2 py-0.5 rounded text-[11px] font-bold text-sky-400 bg-slate-900 border border-sky-500" data-preset="glycomet">Glycomet (4/5)</button>
-        <button class="preset-btn px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white" data-preset="dolo">Dolo 650</button>
-        <button class="preset-btn px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white" data-preset="augmentin">Augmentin</button>
+    <!-- Active Auto-Tour Teleprompter Banner -->
+    <div id="tour-banner" class="tour-banner">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+        <span id="tour-step-text">Auto-Demo Active: Step 1 of 6 • Welcome to MediCheck AI</span>
       </div>
-      <button onclick="openModal('modal-architecture')" class="demo-btn primary">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-        Tech Architecture
-      </button>
+      <div class="flex items-center gap-2">
+        <button onclick="stopAutoTour()" class="bg-black/30 hover:bg-black/50 text-white text-[10.5px] px-2.5 py-1 rounded">Stop Tour</button>
+      </div>
     </div>
   </div>
 
   <!-- ======================================================== -->
-  <!-- SMARTPHONE DEVICE MOCKUP FRAME                           -->
+  <!-- SMARTPHONE DEVICE MOCKUP FRAME (WITH SCALE CONTROLLER)    -->
   <!-- ======================================================== -->
-  <div class="phone-wrapper">
-    <!-- Dynamic Island / Speaker Notch -->
-    <div class="phone-island">
-      <div class="camera-lens"></div>
-      <div class="sensor-dot"></div>
-    </div>
+  <div class="phone-scaler" id="phone-scaler">
+    <div class="phone-wrapper">
+      <!-- Renovated Dynamic Island with Real-Time Activity Text -->
+      <div class="phone-island" id="dynamic-island">
+        <div class="camera-lens"></div>
+        <span class="island-activity-text" id="island-text">MediCheck Active</span>
+        <div class="sensor-dot"></div>
+      </div>
 
     <!-- Status Bar -->
     <div class="phone-statusbar" id="mobile-statusbar">
@@ -1104,6 +1168,7 @@
       </button>
     </div>
   </div>
+  </div> <!-- Close phone-scaler -->
 
   <!-- ======================================================== -->
   <!-- MODAL: ADD MEDICATION                                    -->

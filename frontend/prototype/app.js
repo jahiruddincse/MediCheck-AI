@@ -182,16 +182,22 @@ document.addEventListener("DOMContentLoaded", () => {
   loadMedicineIntoUI(currentMedicine);
 });
 
-// Update Status Bar Time
+// Update Status Bar Time & Telemetry
 function updateTimeDisplay() {
   const now = new Date();
   let hours = now.getHours();
   let minutes = now.getMinutes();
-  const ampm = hours >= 12 ? "PM" : "AM";
   hours = hours % 12 || 12;
   const timeStr = `${hours}:${minutes < 10 ? "0" + minutes : minutes}`;
   const el = document.getElementById("status-time");
   if (el) el.textContent = timeStr;
+
+  // Real-time telemetry jitter (simulated FastAPI ping)
+  const telemLat = document.getElementById("telem-latency");
+  if (telemLat) {
+    const lat = Math.floor(35 + Math.random() * 12);
+    telemLat.textContent = `${lat}ms`;
+  }
 }
 
 // Navigation Engine
@@ -209,13 +215,94 @@ function navigateTo(screenId) {
     if (viewport) viewport.scrollTop = 0;
   }
 
-  // Update Supervisor Pills
+  // Update Dynamic Island with Live Activity
+  updateDynamicIsland(screenId);
+
+  // Update dropdown if not already matched
+  const dropdown = document.getElementById("screen-select-dropdown");
+  if (dropdown && dropdown.value !== screenId) {
+    dropdown.value = screenId;
+  }
+
+  // Update Stage Tabs Highlight
+  updateStageTabsHighlight(screenId);
+
+  // Update Supervisor Pills if present
   document.querySelectorAll(".pill-btn").forEach((pill) => {
     pill.classList.toggle("active", pill.getAttribute("data-screen") === screenId);
   });
 
   // Update Bottom Nav
   updateBottomNavHighlight(screenId);
+
+  // Sound effect
+  playAudioEffect("click");
+}
+
+// Stage Definition Mapping
+const STAGE_MAPPING = {
+  "screen-splash": "overview",
+  "screen-home": "overview",
+  "screen-scan": "vision",
+  "screen-pipeline": "vision",
+  "screen-processing": "vision",
+  "screen-extracted": "verification",
+  "screen-verification": "verification",
+  "screen-medications": "safety",
+  "screen-safety": "safety",
+  "screen-history": "intelligence",
+  "screen-chatbot": "intelligence",
+  "screen-profile": "intelligence",
+  "screen-about": "intelligence"
+};
+
+function updateStageTabsHighlight(screenId) {
+  const currentStage = STAGE_MAPPING[screenId] || "overview";
+  document.querySelectorAll(".stage-tab").forEach(tab => {
+    tab.classList.toggle("active", tab.getAttribute("data-stage") === currentStage);
+  });
+}
+
+function jumpToStage(stageKey) {
+  const stageEntryMap = {
+    overview: "screen-home",
+    vision: "screen-scan",
+    verification: "screen-verification",
+    safety: "screen-safety",
+    intelligence: "screen-chatbot"
+  };
+  const targetScreen = stageEntryMap[stageKey] || "screen-home";
+  navigateTo(targetScreen);
+}
+
+// Dynamic Island Live Activity Engine
+function updateDynamicIsland(screenId) {
+  const island = document.getElementById("dynamic-island");
+  const islandText = document.getElementById("island-text");
+  if (!island || !islandText) return;
+
+  if (screenId === "screen-scan") {
+    island.classList.add("expanded");
+    islandText.textContent = "📷 Camera Viewfinder";
+  } else if (screenId === "screen-processing") {
+    island.classList.add("expanded");
+    islandText.textContent = "⚡ Radar: Processing OCR...";
+  } else if (screenId === "screen-extracted") {
+    island.classList.add("expanded");
+    islandText.textContent = "📝 Reviewing Extracted Fields";
+  } else if (screenId === "screen-verification") {
+    island.classList.add("expanded");
+    islandText.textContent = "⚠️ Verification: 4/5 Checks";
+  } else if (screenId === "screen-safety") {
+    island.classList.add("expanded");
+    islandText.textContent = "🛡️ Safety: Duplicate Metformin";
+  } else if (screenId === "screen-chatbot") {
+    island.classList.add("expanded");
+    islandText.textContent = "🤖 MediCheck AI Assistant";
+  } else {
+    island.classList.remove("expanded");
+    islandText.textContent = "MediCheck Active";
+  }
 }
 
 function updateBottomNavHighlight(screenId) {
@@ -738,4 +825,232 @@ function showToast(msg) {
   setTimeout(() => {
     toast.remove();
   }, 2200);
+}
+
+// ========================================================
+// RENOVATED PRESET SWITCHER WITH DIAGNOSTIC BADGES
+// ========================================================
+function switchPreset(key) {
+  if (!PRESET_MEDICINES[key]) return;
+
+  currentPresetKey = key;
+  currentMedicine = JSON.parse(JSON.stringify(PRESET_MEDICINES[key]));
+  loadMedicineIntoUI(currentMedicine);
+
+  // Update Preset Chip Highlight
+  document.querySelectorAll(".preset-chip").forEach((chip) => {
+    chip.classList.toggle("active", chip.getAttribute("data-preset") === key);
+  });
+
+  playAudioEffect("chime");
+  showToast(`Loaded Preset: ${currentMedicine.name}`);
+}
+
+// ========================================================
+// WEB AUDIO API SOUND SYNTHESIZER (ZERO EXTERNAL ASSETS)
+// ========================================================
+let audioEnabled = true;
+let audioCtx = null;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+    }
+  }
+  if (audioCtx && audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+  const btn = document.getElementById("btn-audio-toggle");
+  if (btn) {
+    btn.textContent = audioEnabled ? "🔊 Audio: ON" : "🔇 Audio: OFF";
+  }
+  showToast(audioEnabled ? "Synthesized Sound FX Enabled" : "Sound FX Muted");
+}
+
+function playAudioEffect(type) {
+  if (!audioEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    const now = ctx.currentTime;
+
+    if (type === "click") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(800, now);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } else if (type === "shutter") {
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(1400, now);
+      osc.frequency.exponentialRampToValueAtTime(200, now + 0.12);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+      osc.start(now);
+      osc.stop(now + 0.12);
+    } else if (type === "radar") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(950, now);
+      gain.gain.setValueAtTime(0.06, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if (type === "chime") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(523.25, now); // C5
+      osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    }
+  } catch (e) {
+    // Audio context not allowed before user gesture
+  }
+}
+
+// ========================================================
+// ZOOM SCALE CONTROLLER (FIT ON ANY SCREEN)
+// ========================================================
+const ZOOM_LEVELS = [
+  { scale: 1.0, label: "Scale: 100%" },
+  { scale: 0.9, label: "Scale: 90%" },
+  { scale: 0.82, label: "Scale: 82%" }
+];
+let currentZoomIdx = 0;
+
+function cycleZoom() {
+  currentZoomIdx = (currentZoomIdx + 1) % ZOOM_LEVELS.length;
+  const zoom = ZOOM_LEVELS[currentZoomIdx];
+  const scaler = document.getElementById("phone-scaler");
+  if (scaler) {
+    scaler.style.transform = `scale(${zoom.scale})`;
+  }
+  const btn = document.getElementById("btn-zoom");
+  if (btn) {
+    btn.textContent = `🔍 ${zoom.label}`;
+  }
+  showToast(`View Zoom set to ${zoom.label}`);
+}
+
+// ========================================================
+// AUTOMATED SUPERVISOR WALKTHROUGH TOUR ENGINE
+// ========================================================
+let isAutoTourRunning = false;
+let tourTimer = null;
+let currentTourStep = 0;
+
+const AUTO_TOUR_STEPS = [
+  {
+    screen: "screen-home",
+    text: "Step 1/6 • Welcome to MediCheck AI Dashboard & Core CTA",
+    delay: 2600
+  },
+  {
+    screen: "screen-scan",
+    text: "Step 2/6 • Packaging Camera Viewfinder with AI Alignment Corners",
+    delay: 3000
+  },
+  {
+    screen: "screen-processing",
+    text: "Step 3/6 • OpenCV Image Preprocessing & YOLO/EasyOCR Region Extraction",
+    delay: 3200
+  },
+  {
+    screen: "screen-extracted",
+    text: "Step 4/6 • Extracted Data Card with Human-in-the-Loop Editable Fields",
+    delay: 2800
+  },
+  {
+    screen: "screen-verification",
+    text: "Step 5/6 • Verification Result: 4/5 Checks Matched with Attention on Batch",
+    delay: 3400
+  },
+  {
+    screen: "screen-safety",
+    text: "Step 6/6 • Active Ingredient Profile Safety: Duplicate Metformin Flag",
+    delay: 3600
+  },
+  {
+    screen: "screen-chatbot",
+    text: "Tour Complete • MediCheck AI Assistant with Ethical Guardrails",
+    delay: 4000
+  }
+];
+
+function toggleAutoTour() {
+  if (isAutoTourRunning) {
+    stopAutoTour();
+  } else {
+    startAutoTour();
+  }
+}
+
+function startAutoTour() {
+  isAutoTourRunning = true;
+  currentTourStep = 0;
+
+  const btn = document.getElementById("btn-auto-tour");
+  if (btn) {
+    btn.innerHTML = "<span>⏹</span> Stop Tour";
+    btn.className = "demo-btn primary";
+  }
+
+  const banner = document.getElementById("tour-banner");
+  if (banner) banner.classList.add("active");
+
+  showToast("Starting Automated Walkthrough Tour");
+  executeTourStep();
+}
+
+function executeTourStep() {
+  if (!isAutoTourRunning || currentTourStep >= AUTO_TOUR_STEPS.length) {
+    stopAutoTour();
+    return;
+  }
+
+  const step = AUTO_TOUR_STEPS[currentTourStep];
+  navigateTo(step.screen);
+
+  const bannerText = document.getElementById("tour-step-text");
+  if (bannerText) {
+    bannerText.textContent = step.text;
+  }
+
+  playAudioEffect("chime");
+
+  tourTimer = setTimeout(() => {
+    currentTourStep++;
+    executeTourStep();
+  }, step.delay);
+}
+
+function stopAutoTour() {
+  isAutoTourRunning = false;
+  if (tourTimer) clearTimeout(tourTimer);
+
+  const btn = document.getElementById("btn-auto-tour");
+  if (btn) {
+    btn.innerHTML = "<span>▶</span> Auto Walkthrough";
+    btn.className = "demo-btn accent";
+  }
+
+  const banner = document.getElementById("tour-banner");
+  if (banner) banner.classList.remove("active");
+
+  showToast("Auto Walkthrough Ended");
 }
