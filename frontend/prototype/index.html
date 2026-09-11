@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MediCheck AI - Mobile Prototype Simulator</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Prototype Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ======================================================== -->
+  <!-- SUPERVISOR EXHIBITION PRESENTATION CONTROLS (TOP BAR)    -->
+  <!-- ======================================================== -->
+  <div class="presentation-bar">
+    <div class="presentation-title">
+      <div class="w-7 h-7 rounded-lg bg-sky-500 flex items-center justify-center text-white font-bold">🩺</div>
+      <div>
+        <div class="text-[14px] font-bold text-white flex items-center gap-2">
+          MediCheck AI
+          <span class="brand-badge">CAPSTONE DEMO</span>
+        </div>
+        <div class="text-[11px] text-slate-400">Decision-Support Medicine Verification & Safety Prototype</div>
+      </div>
+    </div>
+
+    <!-- Quick Jump to Any of the 13 Screens -->
+    <div class="screen-pills">
+      <button class="pill-btn active" data-screen="screen-splash">1. Splash</button>
+      <button class="pill-btn" data-screen="screen-home">2. Home</button>
+      <button class="pill-btn" data-screen="screen-scan">3. Scan</button>
+      <button class="pill-btn" data-screen="screen-pipeline">4. AI Pipeline</button>
+      <button class="pill-btn" data-screen="screen-processing">5. Processing</button>
+      <button class="pill-btn" data-screen="screen-extracted">6. Extracted Data</button>
+      <button class="pill-btn" data-screen="screen-verification">7. Verification Result</button>
+      <button class="pill-btn" data-screen="screen-medications">8. My Medications</button>
+      <button class="pill-btn" data-screen="screen-safety">9. Safety & Duplicate</button>
+      <button class="pill-btn" data-screen="screen-history">10. History</button>
+      <button class="pill-btn" data-screen="screen-chatbot">11. AI Assistant</button>
+      <button class="pill-btn" data-screen="screen-profile">12. Profile</button>
+      <button class="pill-btn" data-screen="screen-about">13. Disclaimer</button>
+    </div>
+
+    <!-- Demonstration Action Tools -->
+    <div class="action-btns">
+      <div class="flex items-center gap-1 bg-slate-800 p-1 rounded-lg border border-slate-700">
+        <span class="text-[11px] text-slate-400 px-1 font-semibold">Preset:</span>
+        <button class="preset-btn active px-2 py-0.5 rounded text-[11px] font-bold text-sky-400 bg-slate-900 border border-sky-500" data-preset="glycomet">Glycomet (4/5)</button>
+        <button class="preset-btn px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white" data-preset="dolo">Dolo 650</button>
+        <button class="preset-btn px-2 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white" data-preset="augmentin">Augmentin</button>
+      </div>
+      <button onclick="openModal('modal-architecture')" class="demo-btn primary">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        Tech Architecture
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- SMARTPHONE DEVICE MOCKUP FRAME                           -->
+  <!-- ======================================================== -->
+  <div class="phone-wrapper">
+    <!-- Dynamic Island / Speaker Notch -->
+    <div class="phone-island">
+      <div class="camera-lens"></div>
+      <div class="sensor-dot"></div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="phone-statusbar" id="mobile-statusbar">
+      <span id="status-time">10:45 AM</span>
+      <div class="status-right">
+        <!-- 5G, Wifi, Battery -->
+        <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L12 22l7.03-4.39C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4z"/></svg>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17 6h-2V4c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v2H7c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MOBILE VIEWPORT (ALL 13 PAGES)                           -->
+    <!-- ======================================================== -->
+    <div class="screen-viewport">
+
+      <!-- ============================================== -->
+      <!-- SCREEN 1: SPLASH SCREEN                        -->
+      <!-- ============================================== -->
+      <div id="screen-splash" class="screen-page active bg-gradient-to-br from-slate-900 via-sky-950 to-teal-950 text-white justify-between p-6">
+        <div class="pt-8 flex justify-end">
+          <span class="text-[10px] tracking-widest uppercase bg-white/10 px-2 py-1 rounded border border-white/15 text-sky-200">
+            Decision Support v1.0
+          </span>
+        </div>
+
+        <div class="flex flex-col items-center text-center my-auto">
+          <!-- Logo with Pulse Ring -->
+          <div class="relative mb-6">
+            <div class="w-24 h-24 rounded-3xl bg-gradient-to-tr from-sky-500 to-teal-400 p-0.5 shadow-2xl shadow-sky-500/40 animate-pulse">
+              <div class="w-full h-full bg-slate-900 rounded-[22px] flex items-center justify-center">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#skyTealGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <defs>
+                    <linearGradient id="skyTealGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#38bdf8" />
+                      <stop offset="1" stop-color="#2dd4bf" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                  <path d="M12 9v6m-3-3h6"/>
+                </svg>
+              </div>
+            </div>
+            <!-- AI Pulse Orbit -->
+            <div class="absolute -inset-2 rounded-[32px] border border-sky-400/30 animate-ping pointer-events-none"></div>
+          </div>
+
+          <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">MediCheck AI</h1>
+          <p class="text-sky-300 font-medium text-[15px] mb-4">“Scan Smarter. Understand Better.”</p>
+          <div class="inline-flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 text-[11px] text-slate-300">
+            <span class="w-2 h-2 rounded-full bg-teal-400 animate-ping"></span>
+            Computer Vision • EasyOCR • Safety Support
+          </div>
+        </div>
+
+        <div class="space-y-3 pb-4">
+          <button onclick="navigateTo('screen-home')" class="btn-primary w-full py-3.5 text-[15px]">
+            Open MediCheck Dashboard
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+          </button>
+          <p class="text-center text-[10.5px] text-slate-400 leading-snug px-4">
+            Informational decision-support system. Does not diagnose or certify medicine authenticity.
+          </p>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 2: HOME DASHBOARD                       -->
+      <!-- ============================================== -->
+      <div id="screen-home" class="screen-page bg-slate-50">
+        <!-- Top App Bar -->
+        <div class="app-header">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-sky-600 to-teal-500 text-white font-bold flex items-center justify-center text-sm shadow">
+              JD
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 font-medium">Welcome back</div>
+              <div class="text-[14px] font-bold text-slate-900">Alex Morgan</div>
+            </div>
+          </div>
+          <button onclick="navigateTo('screen-chatbot')" class="w-8 h-8 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center border border-sky-200">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </button>
+        </div>
+
+        <!-- Large Hero "Scan Medicine" CTA -->
+        <div class="mx-4 mt-3 p-5 rounded-2xl bg-gradient-to-br from-sky-600 via-sky-700 to-teal-700 text-white shadow-lg shadow-sky-600/25 relative overflow-hidden">
+          <div class="relative z-10">
+            <span class="inline-block bg-white/20 text-white text-[10.5px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-2">
+              Primary Action
+            </span>
+            <h2 class="text-xl font-black mb-1 leading-tight">Verify Medicine Package</h2>
+            <p class="text-sky-100 text-[12.5px] mb-4 leading-normal max-w-[240px]">
+              Extract printed packaging information and compare with reference datasets.
+            </p>
+            <button onclick="navigateTo('screen-scan')" class="bg-white text-sky-800 font-bold px-4 py-2.5 rounded-xl text-[13px] inline-flex items-center gap-2 shadow hover:bg-sky-50 transition active:scale-95">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Scan Medicine Now
+            </button>
+          </div>
+          <!-- Background decoration -->
+          <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+          <div class="absolute right-4 top-5 opacity-20">
+            <svg width="90" height="90" fill="currentColor" viewBox="0 0 24 24"><path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15z"/></svg>
+          </div>
+        </div>
+
+        <!-- Quick Actions Grid (4-Items) -->
+        <div class="px-4 mt-4">
+          <div class="text-[12px] font-bold uppercase tracking-wider text-slate-400 mb-2">Quick Navigation</div>
+          <div class="grid grid-cols-2 gap-2.5">
+            <!-- Scan Medicine -->
+            <button onclick="navigateTo('screen-scan')" class="p-3 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-3 text-left hover:border-sky-400 transition">
+              <div class="w-10 h-10 rounded-lg bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              </div>
+              <div>
+                <div class="text-[13px] font-bold text-slate-800">Scan Package</div>
+                <div class="text-[11px] text-slate-500">Camera OCR</div>
+              </div>
+            </button>
+
+            <!-- My Medications -->
+            <button onclick="navigateTo('screen-medications')" class="p-3 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-3 text-left hover:border-teal-400 transition">
+              <div class="w-10 h-10 rounded-lg bg-teal-100 text-teal-600 flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+              </div>
+              <div>
+                <div class="text-[13px] font-bold text-slate-800">My Medications</div>
+                <div class="text-[11px] text-teal-700 font-semibold" id="home-med-count">3 Active Drugs</div>
+              </div>
+            </button>
+
+            <!-- Scan History -->
+            <button onclick="navigateTo('screen-history')" class="p-3 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-3 text-left hover:border-sky-400 transition">
+              <div class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+              </div>
+              <div>
+                <div class="text-[13px] font-bold text-slate-800">Scan History</div>
+                <div class="text-[11px] text-slate-500">View 3 past reports</div>
+              </div>
+            </button>
+
+            <!-- AI Assistant -->
+            <button onclick="navigateTo('screen-chatbot')" class="p-3 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-3 text-left hover:border-emerald-400 transition">
+              <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a8 8 0 0 0-8 8c0 3.36 2.06 6.24 5 7.42V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.58c2.94-1.18 5-4.06 5-7.42a8 8 0 0 0-8-8z"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              </div>
+              <div>
+                <div class="text-[13px] font-bold text-slate-800">AI Assistant</div>
+                <div class="text-[11px] text-slate-500">Ask scan queries</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Informational Card explaining Purpose -->
+        <div class="alert-box alert-info mx-4 mt-4">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <div>
+            <div class="font-bold text-[12.5px] text-sky-900 mb-0.5">Informational Decision Support</div>
+            <p class="text-[11.5px] text-sky-800 leading-relaxed">
+              MediCheck AI assists in extracting printed package data and cross-referencing against reference medicines and personal medication profiles. It does not replace clinical consultation.
+            </p>
+          </div>
+        </div>
+
+        <!-- Recent Scan Card Preview -->
+        <div class="card mx-4 mt-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-[13px] font-bold text-slate-800">Most Recent Scan</h3>
+            <button onclick="navigateTo('screen-history')" class="text-[11px] font-bold text-sky-600">See all</button>
+          </div>
+          <div onclick="navigateTo('screen-verification')" class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between cursor-pointer hover:border-sky-300">
+            <div>
+              <div class="font-bold text-slate-800 text-[13px]">Glycomet 500 SR</div>
+              <div class="text-[11px] text-slate-500">Metformin HCl • Batch PCM82491</div>
+            </div>
+            <div class="text-right">
+              <span class="badge badge-attention text-[10px]">Attention Required</span>
+              <div class="text-[10px] text-slate-400 mt-0.5">4/5 Checks Matched</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 3: SCAN MEDICINE SCREEN                 -->
+      <!-- ============================================== -->
+      <div id="screen-scan" class="screen-page bg-slate-900 text-white">
+        <!-- Header -->
+        <div class="app-header bg-slate-900 border-slate-800 text-white">
+          <button onclick="navigateTo('screen-home')" class="header-back-btn bg-slate-800 text-white hover:bg-slate-700">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1 class="text-white text-[16px]">Scan Medicine Package</h1>
+          <button onclick="openModal('modal-cam-settings')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+
+        <!-- Camera Viewfinder with Realistic Medicine Strip simulation -->
+        <div class="camera-viewfinder relative">
+          <!-- Laser scan animation -->
+          <div class="laser-beam"></div>
+
+          <!-- Alignment corners -->
+          <div class="corner-bracket corner-tl"></div>
+          <div class="corner-bracket corner-tr"></div>
+          <div class="corner-bracket corner-bl"></div>
+          <div class="corner-bracket corner-br"></div>
+
+          <!-- Realistic Medicine Package Mockup -->
+          <div class="medicine-sample-package text-slate-800">
+            <div>
+              <div class="flex justify-between items-center text-[10px] text-slate-500 border-b pb-1">
+                <span id="vf-med-mfg">USV Private Limited</span>
+                <span class="text-sky-600 font-bold">Rx ONLY</span>
+              </div>
+              <div class="text-[17px] font-black tracking-wide text-sky-950 mt-1" id="vf-med-name">
+                GLYCOMET 500 SR
+              </div>
+              <div class="text-[11px] font-semibold text-teal-800" id="vf-med-ing">
+                Metformin Hydrochloride
+              </div>
+            </div>
+
+            <div class="bg-slate-100 p-2 rounded text-[10.5px] border border-slate-200 mt-2">
+              <div class="flex justify-between font-mono">
+                <span id="vf-med-batch" class="font-bold text-slate-900">B.No: PCM82491</span>
+                <span id="vf-med-exp" class="text-amber-800 font-bold">EXP: 07/2027</span>
+              </div>
+              <div class="flex justify-between text-slate-500 text-[9.5px] mt-0.5">
+                <span>MFD: 08/2024</span>
+                <span>MRP ₹45.20</span>
+              </div>
+            </div>
+
+            <!-- YOLO Detected Bounding Boxes overlay -->
+            <div class="absolute inset-0 border border-sky-400/40 rounded-xl pointer-events-none flex flex-col justify-between p-1">
+              <span class="text-[8px] bg-sky-600/80 text-white font-mono px-1 self-start rounded">YOLO: Packaging Box (0.97)</span>
+              <span class="text-[8px] bg-teal-600/80 text-white font-mono px-1 self-end rounded">EasyOCR Ready</span>
+            </div>
+          </div>
+
+          <!-- Camera Guidance Overlay -->
+          <div class="absolute bottom-3 bg-slate-900/80 backdrop-blur px-3 py-1 rounded-full text-[11px] text-slate-300 border border-slate-700">
+            Center the medicine label inside the box
+          </div>
+        </div>
+
+        <!-- Scanning Tips Carousel -->
+        <div class="px-4 py-2">
+          <div class="text-[11px] uppercase tracking-wider text-slate-400 font-bold mb-1.5 flex items-center gap-1.5">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+            Best Scanning Practice
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center text-[10.5px] text-slate-300">
+            <div class="bg-slate-800/80 p-2 rounded-xl border border-slate-700">
+              <div class="text-sky-400 font-bold mb-0.5">Flat Surface</div>
+              <span>Keep package flat</span>
+            </div>
+            <div class="bg-slate-800/80 p-2 rounded-xl border border-slate-700">
+              <div class="text-teal-400 font-bold mb-0.5">Lighting</div>
+              <span>Avoid harsh glare</span>
+            </div>
+            <div class="bg-slate-800/80 p-2 rounded-xl border border-slate-700">
+              <div class="text-emerald-400 font-bold mb-0.5">Clarity</div>
+              <span>Ensure clear text</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shutter & Gallery Controls -->
+        <div class="px-6 pt-3 pb-6 flex items-center justify-around">
+          <!-- Gallery Upload Button -->
+          <button onclick="startScanningSimulation()" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition">
+            <div class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <span class="text-[10.5px]">Upload</span>
+          </button>
+
+          <!-- Large Shutter Capture Button -->
+          <button onclick="startScanningSimulation()" class="w-20 h-20 rounded-full border-4 border-white/30 p-1 flex items-center justify-center group active:scale-95 transition">
+            <div class="w-full h-full rounded-full bg-gradient-to-tr from-sky-500 to-teal-400 flex items-center justify-center shadow-lg shadow-sky-500/50">
+              <svg width="28" height="28" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/></svg>
+            </div>
+          </button>
+
+          <!-- AI Pipeline Visualizer shortcut -->
+          <button onclick="navigateTo('screen-pipeline')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition">
+            <div class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <span class="text-[10.5px]">AI Pipeline</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 4: IMAGE PROCESSING / AI PIPELINE SCREEN-->
+      <!-- ============================================== -->
+      <div id="screen-pipeline" class="screen-page bg-slate-50">
+        <div class="app-header">
+          <button onclick="navigateTo('screen-scan')" class="header-back-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1>AI Computer Vision Pipeline</h1>
+          <div class="w-8"></div>
+        </div>
+
+        <div class="p-4">
+          <div class="text-[12.5px] text-slate-600 mb-3">
+            MediCheck AI processes medicine packaging through a specialized multi-stage computer vision and NLP workflow:
+          </div>
+
+          <!-- Step 1: Camera Input -->
+          <div class="pipeline-node active">
+            <div class="node-icon bg-slate-800">📷</div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center">
+                <strong class="text-[13px] text-slate-900">1. Camera Image</strong>
+                <span class="text-[10px] font-bold bg-slate-200 text-slate-700 px-2 py-0.5 rounded">Raw RGB</span>
+              </div>
+              <div class="text-[11.5px] text-slate-500 mt-0.5">High-resolution package photo captured via mobile camera or uploaded from gallery.</div>
+            </div>
+          </div>
+
+          <div class="pipeline-arrow">↓</div>
+
+          <!-- Step 2: OpenCV Preprocessing -->
+          <div class="pipeline-node">
+            <div class="node-icon bg-sky-600">CV</div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center">
+                <strong class="text-[13px] text-slate-900">2. OpenCV Preprocessing</strong>
+                <span class="text-[10px] font-bold bg-sky-100 text-sky-700 px-2 py-0.5 rounded">Image Enhancer</span>
+              </div>
+              <div class="text-[11.5px] text-slate-500 mt-0.5">Grayscale conversion, noise filtering, perspective correction, contrast enhancement.</div>
+              <div class="mt-1.5 p-1.5 bg-slate-100 rounded text-[10px] font-mono text-slate-700" id="pipe-opencv-detail">
+                Grayscale -> Gaussian Blur 5x5 -> Otsu Adaptive Thresholding
+              </div>
+            </div>
+          </div>
+
+          <div class="pipeline-arrow">↓</div>
+
+          <!-- Step 3: YOLO Region Detection -->
+          <div class="pipeline-node">
+            <div class="node-icon bg-teal-600">YOLO</div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center">
+                <strong class="text-[13px] text-slate-900">3. YOLO Region Detection</strong>
+                <span class="text-[10px] font-bold bg-teal-100 text-teal-700 px-2 py-0.5 rounded">WHERE to look</span>
+              </div>
+              <div class="text-[11.5px] text-slate-500 mt-0.5">Finds bounding boxes for medicine name, strength, batch number, manufacturer, and expiry.</div>
+              <div class="mt-1.5 p-1.5 bg-slate-100 rounded text-[10px] font-mono text-slate-700" id="pipe-yolo-detail">
+                BBoxes: [Name: 0.94], [Strength: 0.91], [Batch: 0.88], [Expiry: 0.96]
+              </div>
+            </div>
+          </div>
+
+          <div class="pipeline-arrow">↓</div>
+
+          <!-- Step 4: EasyOCR Text Extraction -->
+          <div class="pipeline-node">
+            <div class="node-icon bg-indigo-600">OCR</div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center">
+                <strong class="text-[13px] text-slate-900">4. EasyOCR Extraction</strong>
+                <span class="text-[10px] font-bold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded">WHAT it says</span>
+              </div>
+              <div class="text-[11.5px] text-slate-500 mt-0.5">Converts pixels inside detected bounding boxes into computer-readable raw text strings.</div>
+              <div class="mt-1.5 p-1.5 bg-slate-100 rounded text-[10px] font-mono text-slate-700" id="pipe-ocr-detail">
+                Raw: 'USV GLYCOMET 500 SR METFORMIN HCL TAB B.No.PCM82491 EXP.07/27'
+              </div>
+            </div>
+          </div>
+
+          <div class="pipeline-arrow">↓</div>
+
+          <!-- Step 5: AI Structuring -->
+          <div class="pipeline-node">
+            <div class="node-icon bg-emerald-600">NLP</div>
+            <div class="flex-1">
+              <div class="flex justify-between items-center">
+                <strong class="text-[13px] text-slate-900">5. AI/NLP Structuring</strong>
+                <span class="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded">Structured JSON</span>
+              </div>
+              <div class="text-[11.5px] text-slate-500 mt-0.5">Organizes unstructured text tokens into formal fields for database lookup.</div>
+              <div class="mt-1.5 p-1.5 bg-slate-100 rounded text-[10px] font-mono text-slate-700" id="pipe-nlp-detail">
+                Schema: {"name": "Glycomet", "batch": "PCM82491", "active": "Metformin"}
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button onclick="startScanningSimulation()" class="btn-primary w-full py-3">
+              Run Processing Simulator
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 5: SCANNING / PROCESSING SCREEN         -->
+      <!-- ============================================== -->
+      <div id="screen-processing" class="screen-page bg-white justify-between p-6">
+        <div class="text-center pt-6">
+          <div class="inline-flex items-center gap-1.5 bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-[11px] font-semibold mb-3 border border-sky-200">
+            <span class="w-2 h-2 rounded-full bg-sky-500 animate-ping"></span>
+            Vision & NLP Engine Running
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 mb-1">Analyzing Package</h2>
+          <p class="text-[12.5px] text-slate-500">Extracting printed details & cross-referencing datasets</p>
+        </div>
+
+        <!-- Animated Scanner Radar Graphic -->
+        <div class="relative w-44 h-44 mx-auto my-6 flex items-center justify-center">
+          <div class="absolute inset-0 rounded-full border-2 border-dashed border-sky-300 animate-spin" style="animation-duration: 10s;"></div>
+          <div class="absolute inset-3 rounded-full border border-teal-200 animate-ping opacity-60"></div>
+          <div class="w-32 h-32 rounded-full bg-gradient-to-tr from-sky-500 to-teal-400 p-1 shadow-xl shadow-sky-500/25 flex items-center justify-center">
+            <div class="w-full h-full bg-white rounded-full flex flex-col items-center justify-center text-sky-600">
+              <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M3 7V5a2 2 0 0 1 2-2h2m12 0h2a2 2 0 0 1 2 2v2m0 10v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+              <span class="text-[10px] font-bold text-slate-400 mt-1 uppercase">Processing</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Steps Checklist -->
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2.5">
+          <div id="proc-step-1" class="flex items-center gap-3 text-slate-800 font-medium text-[13px]">
+            <div class="step-icon w-5 h-5 flex items-center justify-center">
+              <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+            </div>
+            <span>Image received from camera</span>
+          </div>
+
+          <div id="proc-step-2" class="flex items-center gap-3 text-slate-800 font-medium text-[13px]">
+            <div class="step-icon w-5 h-5 flex items-center justify-center">
+              <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+            </div>
+            <span>Image preprocessing (OpenCV)</span>
+          </div>
+
+          <div id="proc-step-3" class="flex items-center gap-3 text-slate-800 font-medium text-[13px]">
+            <div class="step-icon w-5 h-5 flex items-center justify-center">
+              <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+            </div>
+            <span>Detecting medicine information (YOLO)</span>
+          </div>
+
+          <div id="proc-step-4" class="flex items-center gap-3 text-slate-800 font-medium text-[13px]">
+            <div class="step-icon w-5 h-5 flex items-center justify-center">
+              <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+            </div>
+            <span>Extracting printed text (EasyOCR)</span>
+          </div>
+
+          <div id="proc-step-5" class="flex items-center gap-3 text-slate-800 font-medium text-[13px]">
+            <div class="step-icon w-5 h-5 flex items-center justify-center">
+              <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+            </div>
+            <span>Structuring information (AI/NLP)</span>
+          </div>
+
+          <div id="proc-step-6" class="flex items-center gap-3 text-slate-400 text-[13px]">
+            <div class="step-icon w-5 h-5 flex items-center justify-center">
+              <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+            </div>
+            <span>Checking reference database</span>
+          </div>
+
+          <div id="proc-step-7" class="flex items-center gap-3 text-slate-400 text-[13px]">
+            <div class="step-icon w-5 h-5 flex items-center justify-center">
+              <div class="w-2 h-2 rounded-full bg-slate-300"></div>
+            </div>
+            <span>Preparing report</span>
+          </div>
+
+          <!-- Live Progress Bar -->
+          <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mt-3">
+            <div id="proc-progress-bar" class="bg-gradient-to-r from-sky-500 to-teal-400 h-full w-[70%] transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <button onclick="navigateTo('screen-extracted')" class="btn-secondary text-[12.5px] mt-2">
+          Skip Waiting & View Extracted Info
+        </button>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 6: EXTRACTED MEDICINE INFORMATION       -->
+      <!-- ============================================== -->
+      <div id="screen-extracted" class="screen-page bg-slate-50">
+        <div class="app-header">
+          <button onclick="navigateTo('screen-scan')" class="header-back-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1>Extracted Medicine Data</h1>
+          <button onclick="showToast('Fields editable')" class="text-xs font-bold text-sky-600">Edit</button>
+        </div>
+
+        <!-- Editable Form Card -->
+        <div class="p-4 space-y-3">
+          <div class="alert-box alert-info" style="margin: 0;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span class="text-[11.5px]">Please review the extracted information below. You may edit any field before running verification.</span>
+          </div>
+
+          <div class="card p-4 space-y-3" style="margin: 0;">
+            <!-- Medicine Name -->
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Medicine Name</label>
+              <input type="text" id="field-name" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] font-semibold text-slate-900 focus:border-sky-500 focus:bg-white outline-none" value="Glycomet 500 SR" />
+            </div>
+
+            <!-- Active Ingredient -->
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Active Ingredient</label>
+              <input type="text" id="field-ingredient" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] font-semibold text-slate-900 focus:border-sky-500 focus:bg-white outline-none" value="Metformin Hydrochloride" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <!-- Strength -->
+              <div>
+                <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Strength</label>
+                <input type="text" id="field-strength" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] font-semibold text-slate-900 focus:border-sky-500 focus:bg-white outline-none" value="500 mg" />
+              </div>
+              <!-- Dosage Form -->
+              <div>
+                <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Dosage Form</label>
+                <input type="text" id="field-dosage" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] font-semibold text-slate-900 focus:border-sky-500 focus:bg-white outline-none" value="Sustained Release Tablet" />
+              </div>
+            </div>
+
+            <!-- Manufacturer -->
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Manufacturer</label>
+              <input type="text" id="field-manufacturer" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] font-semibold text-slate-900 focus:border-sky-500 focus:bg-white outline-none" value="USV Private Limited" />
+            </div>
+
+            <!-- Batch Number -->
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Batch Number</label>
+              <div class="relative">
+                <input type="text" id="field-batch" class="w-full p-2.5 bg-slate-50 border border-amber-300 rounded-xl text-[13px] font-bold text-amber-900 focus:border-amber-500 focus:bg-white outline-none" value="PCM82491" />
+                <span class="absolute right-2.5 top-2.5 text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">Check Target</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+              <!-- Manufacturing Date -->
+              <div>
+                <label class="block text-[10.5px] font-bold uppercase text-slate-500 mb-1">Mfg Date</label>
+                <input type="text" id="field-mfgdate" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-[12px] font-medium text-slate-900 focus:border-sky-500 focus:bg-white outline-none" value="08/2024" />
+              </div>
+              <!-- Expiry Date -->
+              <div>
+                <label class="block text-[10.5px] font-bold uppercase text-slate-500 mb-1">Expiry Date</label>
+                <input type="text" id="field-expdate" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-[12px] font-medium text-slate-900 focus:border-sky-500 focus:bg-white outline-none" value="07/2027" />
+              </div>
+              <!-- MRP -->
+              <div>
+                <label class="block text-[10.5px] font-bold uppercase text-slate-500 mb-1">MRP</label>
+                <input type="text" id="field-mrp" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-xl text-[12px] font-medium text-slate-900 focus:border-sky-500 focus:bg-white outline-none" value="₹45.20" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Confirm CTA -->
+          <div class="pt-2">
+            <button onclick="confirmExtractedInfo()" class="btn-primary w-full py-3.5 text-[14px]">
+              Confirm Information & Run Verification
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 7: VERIFICATION RESULT SCREEN           -->
+      <!-- ============================================== -->
+      <div id="screen-verification" class="screen-page bg-slate-50">
+        <div class="app-header">
+          <button onclick="navigateTo('screen-extracted')" class="header-back-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1>Verification Check</h1>
+          <button onclick="navigateTo('screen-chatbot')" class="text-xs font-bold text-sky-600">Ask AI</button>
+        </div>
+
+        <div class="p-4 space-y-3">
+          <!-- Score Summary Card -->
+          <div class="card p-4 text-center" style="margin: 0;">
+            <span id="verify-status-badge" class="badge badge-attention text-[11px] mb-2">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4m0 4h.01"></path></svg>
+              Attention Required
+            </span>
+
+            <div class="text-3xl font-black text-slate-900 mt-1" id="verify-score-badge">4/5 Checks Matched</div>
+            <div class="text-[13px] text-slate-500 mt-0.5" id="verify-status-text">Attention Required</div>
+          </div>
+
+          <!-- Mandatory Decision Support Context Box -->
+          <div class="alert-box alert-attention" style="margin: 0;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4m0 4h.01"></path></svg>
+            <div>
+              <div class="font-bold text-[12.5px] text-amber-900">Reference Check Notice</div>
+              <p class="text-[11.5px] text-amber-800 mt-0.5 leading-relaxed" id="verify-advisory-text">
+                The available product information is mostly consistent, but the batch could not be matched against the current reference dataset. This does not by itself prove the product is counterfeit.
+              </p>
+              <div class="mt-2 text-[11px] font-bold text-amber-900 flex items-center gap-1">
+                <span>Professional Review Recommended</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verification Checklist -->
+          <div class="card p-3.5" style="margin: 0;">
+            <div class="text-[12px] font-bold uppercase tracking-wider text-slate-400 mb-2">Detailed Parameter Checks</div>
+            <div id="verify-checklist" class="space-y-1">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="space-y-2 pt-1">
+            <button onclick="navigateTo('screen-safety')" class="btn-primary w-full py-3">
+              Check Medication Profile Safety
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+            </button>
+            <button onclick="navigateTo('screen-chatbot')" class="btn-secondary w-full py-2.5">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Discuss with AI Assistant
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 8: MY MEDICATIONS SCREEN                -->
+      <!-- ============================================== -->
+      <div id="screen-medications" class="screen-page bg-slate-50">
+        <div class="app-header">
+          <button onclick="navigateTo('screen-home')" class="header-back-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1>My Medication Profile</h1>
+          <span id="med-count-badge" class="text-[11px] font-bold bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full">3 Saved</span>
+        </div>
+
+        <div class="p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="text-[12px] font-bold uppercase text-slate-400">Current Saved Medications</div>
+            <button onclick="openModal('modal-add-med')" class="text-[12px] font-bold text-sky-600 flex items-center gap-1 hover:text-sky-700">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Medication
+            </button>
+          </div>
+
+          <!-- Medication List Container -->
+          <div id="meds-list-container">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Info Box on Why Profile Matters -->
+          <div class="alert-box alert-info" style="margin: 0;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <div class="text-[12px] text-sky-900 leading-relaxed">
+              <strong>Active Ingredient Cross-Checking:</strong> When you scan a new medicine, MediCheck AI automatically compares its active ingredients against this list to alert you about potential duplicates.
+            </div>
+          </div>
+
+          <!-- Add Medication CTA Button -->
+          <button onclick="openModal('modal-add-med')" class="btn-primary w-full py-3">
+            + Add Medication to Profile
+          </button>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 9: MEDICATION SAFETY RESULT SCREEN      -->
+      <!-- ============================================== -->
+      <div id="screen-safety" class="screen-page bg-slate-50">
+        <div class="app-header">
+          <button onclick="navigateTo('screen-verification')" class="header-back-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1>Medication Safety Check</h1>
+          <div class="w-8"></div>
+        </div>
+
+        <div class="p-4 space-y-3">
+          <!-- Active Ingredient Comparison Container -->
+          <div class="card p-4" style="margin: 0;">
+            <div class="text-[12px] font-bold uppercase tracking-wider text-slate-400 mb-2">Profile Cross-Reference</div>
+            <div id="safety-duplicate-card">
+              <!-- Dynamically populated with Duplicate Metformin alert -->
+            </div>
+          </div>
+
+          <!-- Curated Interaction Check Section -->
+          <div class="card p-4" style="margin: 0;">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-[12px] font-bold uppercase tracking-wider text-slate-400">Selected Interaction Check</div>
+              <span class="badge badge-blue text-[9.5px]">Curated DB v2026.09</span>
+            </div>
+            <div id="safety-interaction-detail">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+
+          <!-- Strict Medical Advisory Notice -->
+          <div class="alert-box alert-attention" style="margin: 0;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01"/></svg>
+            <div class="text-[11.5px] text-amber-900 leading-relaxed">
+              <strong>Professional Review Required:</strong> MediCheck AI evaluates only documented pairings within its reference set. It does NOT claim that no interaction exists universally. Always inform your physician of all substances you consume.
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="space-y-2 pt-2">
+            <button onclick="navigateTo('screen-chatbot')" class="btn-primary w-full py-3">
+              Ask AI: “What does duplicate ingredient mean?”
+            </button>
+            <button onclick="navigateTo('screen-home')" class="btn-secondary w-full py-2.5">
+              Return to Home Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 10: SCAN HISTORY SCREEN                 -->
+      <!-- ============================================== -->
+      <div id="screen-history" class="screen-page bg-slate-50">
+        <div class="app-header">
+          <button onclick="navigateTo('screen-home')" class="header-back-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1>Scan History</h1>
+          <button onclick="showToast('History refreshed')" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          </button>
+        </div>
+
+        <div class="p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-[12px] font-bold uppercase text-slate-400">Past Verified Reports</span>
+            <span class="text-[11px] text-slate-500 font-medium">Tap to view report</span>
+          </div>
+
+          <!-- History List Container -->
+          <div id="history-list-container">
+            <!-- Populated via JS -->
+          </div>
+
+          <div class="text-center pt-2">
+            <button onclick="navigateTo('screen-scan')" class="btn-primary w-full py-3">
+              Scan New Medicine Package
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 11: AI MEDICHECK CHATBOT                -->
+      <!-- ============================================== -->
+      <div id="screen-chatbot" class="screen-page bg-slate-50 flex flex-col justify-between">
+        <!-- Header -->
+        <div class="app-header">
+          <div class="flex items-center gap-2">
+            <button onclick="navigateTo('screen-home')" class="header-back-btn">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div>
+              <div class="text-[14px] font-bold text-slate-900 flex items-center gap-1.5">
+                MediCheck Assistant
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              </div>
+              <div class="text-[11px] text-slate-500">Explaining: <span id="chat-current-med">Glycomet 500 SR</span></div>
+            </div>
+          </div>
+          <button onclick="openModal('modal-guardrails')" class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded border border-sky-200">
+            Guardrails
+          </button>
+        </div>
+
+        <!-- Chat Guardrail Notice Banner -->
+        <div class="chat-guardrail-notice mt-2">
+          Decision-support explanation bot. Does not prescribe, diagnose, or replace doctors.
+        </div>
+
+        <!-- Chat Thread Message Box -->
+        <div class="chat-thread overflow-y-auto" id="chat-thread" style="height: 380px;">
+          <!-- Bot Welcome -->
+          <div class="chat-bubble bot">
+            Hello Alex! I am your <strong>MediCheck AI Assistant</strong>. I can help explain the extracted packaging details, active ingredients, and verification flags for your recent scan.
+          </div>
+
+          <!-- Bot Explaining Current Scan -->
+          <div class="chat-bubble bot">
+            Regarding <strong>Glycomet 500 SR</strong>: The system flagged <em>Attention Required</em> because batch PCM82491 was not found in our reference dataset, and noted a duplicate active ingredient (Metformin) with your profile.
+          </div>
+        </div>
+
+        <!-- Suggested Prompt Chips Carousel -->
+        <div class="px-3 py-1.5 flex gap-1.5 overflow-x-auto text-[11.5px] border-t border-slate-200 bg-white">
+          <button class="prompt-chip bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-700 px-3 py-1.5 rounded-full whitespace-nowrap border border-slate-200 transition">
+            What is the active ingredient?
+          </button>
+          <button class="prompt-chip bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-700 px-3 py-1.5 rounded-full whitespace-nowrap border border-slate-200 transition">
+            Why is my batch showing attention required?
+          </button>
+          <button class="prompt-chip bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-700 px-3 py-1.5 rounded-full whitespace-nowrap border border-slate-200 transition">
+            What does duplicate active ingredient mean?
+          </button>
+          <button class="prompt-chip bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-700 px-3 py-1.5 rounded-full whitespace-nowrap border border-slate-200 transition">
+            Can I take this medicine now?
+          </button>
+        </div>
+
+        <!-- Input Box -->
+        <div class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+          <input type="text" id="chat-input" placeholder="Ask about this medicine scan..." class="flex-1 bg-slate-100 border border-slate-200 rounded-xl px-3.5 py-2.5 text-[13px] outline-none focus:border-sky-500 focus:bg-white text-slate-800" />
+          <button id="chat-send-btn" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-teal-500 text-white flex items-center justify-center flex-shrink-0 shadow hover:opacity-95">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 12: PROFILE / SETTINGS                  -->
+      <!-- ============================================== -->
+      <div id="screen-profile" class="screen-page bg-slate-50">
+        <div class="app-header">
+          <button onclick="navigateTo('screen-home')" class="header-back-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1>Settings & Profile</h1>
+          <div class="w-8"></div>
+        </div>
+
+        <div class="p-4 space-y-3">
+          <!-- User Profile Card -->
+          <div class="card p-4 flex items-center gap-3.5" style="margin: 0;">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-600 to-teal-500 text-white font-bold text-xl flex items-center justify-center shadow-md">
+              JD
+            </div>
+            <div>
+              <h2 class="text-[15px] font-bold text-slate-900">Alex Morgan</h2>
+              <div class="text-[12px] text-slate-500">User ID: MC-2026-8819</div>
+              <div class="text-[11px] text-teal-700 font-semibold mt-0.5">3 Profile Medications Registered</div>
+            </div>
+          </div>
+
+          <!-- System Details Section -->
+          <div class="card p-4 space-y-2.5" style="margin: 0;">
+            <div class="text-[11.5px] font-bold uppercase tracking-wider text-slate-400 mb-1">System & Models</div>
+
+            <div class="flex items-center justify-between text-[13px] py-1 border-b border-slate-100">
+              <span class="text-slate-700">Reference Database</span>
+              <span class="text-sky-700 font-mono text-[11px] font-bold bg-sky-50 px-2 py-0.5 rounded">v2026.09 (Curated)</span>
+            </div>
+
+            <div class="flex items-center justify-between text-[13px] py-1 border-b border-slate-100">
+              <span class="text-slate-700">CV Object Detection</span>
+              <span class="text-slate-600 font-mono text-[11px]">YOLOv8-Medicine (Fine-tuned)</span>
+            </div>
+
+            <div class="flex items-center justify-between text-[13px] py-1 border-b border-slate-100">
+              <span class="text-slate-700">OCR Engine</span>
+              <span class="text-slate-600 font-mono text-[11px]">EasyOCR v1.7</span>
+            </div>
+
+            <div class="flex items-center justify-between text-[13px] py-1">
+              <span class="text-slate-700">Backend API</span>
+              <span class="text-emerald-700 font-semibold text-[11px] flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> FastAPI Ready
+              </span>
+            </div>
+          </div>
+
+          <!-- Navigation Links -->
+          <div class="card p-2" style="margin: 0;">
+            <button onclick="navigateTo('screen-medications')" class="w-full p-2.5 flex items-center justify-between hover:bg-slate-50 rounded-lg text-left text-[13px] font-medium text-slate-800">
+              <div class="flex items-center gap-2.5">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="text-teal-600" viewBox="0 0 24 24"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+                Medication Profile Manager
+              </div>
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-400" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+
+            <button onclick="navigateTo('screen-history')" class="w-full p-2.5 flex items-center justify-between hover:bg-slate-50 rounded-lg text-left text-[13px] font-medium text-slate-800">
+              <div class="flex items-center gap-2.5">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-600" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+                Scan History & Reports
+              </div>
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-400" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+
+            <button onclick="navigateTo('screen-about')" class="w-full p-2.5 flex items-center justify-between hover:bg-slate-50 rounded-lg text-left text-[13px] font-medium text-slate-800">
+              <div class="flex items-center gap-2.5">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" class="text-sky-600" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                About MediCheck AI & Disclaimer
+              </div>
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-400" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+
+          <div class="text-center text-[11px] text-slate-400 pt-1">
+            College AI/ML Exhibition Edition • Academic Capstone
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- SCREEN 13: ABOUT / DISCLAIMER SCREEN           -->
+      <!-- ============================================== -->
+      <div id="screen-about" class="screen-page bg-slate-50">
+        <div class="app-header">
+          <button onclick="navigateTo('screen-home')" class="header-back-btn">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <h1>About & Disclaimer</h1>
+          <div class="w-8"></div>
+        </div>
+
+        <div class="p-4 space-y-3">
+          <!-- Mandatory Regulatory Disclaimer Card -->
+          <div class="card p-4 border-amber-200 bg-amber-50/50" style="margin: 0;">
+            <div class="flex items-center gap-2 text-amber-900 font-bold text-[13px] mb-2">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4m0 4h.01"></path></svg>
+              Legal & Medical Disclaimer
+            </div>
+            <p class="text-[12.5px] text-amber-900 leading-relaxed font-medium">
+              “MediCheck AI provides informational decision support based on extracted package information and available reference data. It does not diagnose, prescribe, or prove medicine authenticity. Always consult a qualified healthcare professional for medical decisions.”
+            </p>
+          </div>
+
+          <!-- Project Purpose -->
+          <div class="card p-4 space-y-2" style="margin: 0;">
+            <h3 class="font-bold text-slate-900 text-[13.5px]">Project Overview</h3>
+            <p class="text-[12px] text-slate-600 leading-relaxed">
+              MediCheck AI was developed as an AI-assisted medicine verification and medication-safety decision-support platform for university presentation.
+            </p>
+            <p class="text-[12px] text-slate-600 leading-relaxed">
+              It helps users extract packaging text, compares that text with a controlled reference dataset, and checks the user’s personal medication profile to flag potential duplicate active ingredients.
+            </p>
+          </div>
+
+          <!-- Complete Technical Flow Representation -->
+          <div class="card p-4" style="margin: 0;">
+            <h3 class="font-bold text-slate-900 text-[13px] mb-2">Complete Technical Flow</h3>
+            <div class="p-3 bg-slate-900 text-slate-100 rounded-xl font-mono text-[11px] leading-loose">
+              <span class="text-sky-400">📱 Flutter Mobile App</span><br/>
+              &nbsp;&nbsp;↓ (Medicine Image)<br/>
+              <span class="text-teal-400">⚡ FastAPI Backend</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-amber-400">🖼️ OpenCV Image Preprocessing</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-indigo-400">🎯 YOLO Region Detection</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-purple-400">📝 EasyOCR Text Extraction</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-rose-400">🧠 AI/NLP Field Structuring</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-emerald-400">🗄️ Reference Medicine Database</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-cyan-400">🔍 Verification Engine</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-yellow-400">🛡️ Medication Safety Engine</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-teal-400">📦 JSON Response</span><br/>
+              &nbsp;&nbsp;↓<br/>
+              <span class="text-sky-400">📱 Flutter Result Screen</span>
+            </div>
+          </div>
+
+          <button onclick="navigateTo('screen-home')" class="btn-primary w-full py-3">
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- BOTTOM NAVIGATION BAR                                    -->
+    <!-- ======================================================== -->
+    <div class="bottom-nav">
+      <!-- Home -->
+      <button class="nav-item active" id="nav-home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Home</span>
+      </button>
+
+      <!-- History -->
+      <button class="nav-item" id="nav-history">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+        <span>History</span>
+      </button>
+
+      <!-- Prominent Center Floating Scan CTA -->
+      <button class="nav-item scan-cta" id="nav-scan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </button>
+
+      <!-- Medications -->
+      <button class="nav-item" id="nav-meds">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+        <span>Meds</span>
+      </button>
+
+      <!-- Profile -->
+      <button class="nav-item" id="nav-profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profile</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: ADD MEDICATION                                    -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="modal-add-med">
+    <div class="modal-sheet p-5">
+      <div class="flex items-center justify-between border-b pb-3 mb-3">
+        <h3 class="font-bold text-slate-900 text-[15px]">Add Medication to Profile</h3>
+        <button onclick="closeModal('modal-add-med')" class="text-slate-400 hover:text-slate-600">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="addMedicationSubmit(event)" class="space-y-3">
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Medicine Brand Name</label>
+          <input type="text" id="new-med-name" placeholder="e.g., Glycomet or Dolo" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] outline-none focus:border-sky-500 focus:bg-white" />
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Active Ingredient</label>
+          <input type="text" id="new-med-ingredient" placeholder="e.g., Metformin Hydrochloride" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] outline-none focus:border-sky-500 focus:bg-white" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Strength</label>
+            <input type="text" id="new-med-strength" placeholder="e.g., 500 mg" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] outline-none focus:border-sky-500 focus:bg-white" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1">Daily Dosage</label>
+            <input type="text" id="new-med-dosage" placeholder="e.g., Twice daily" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-[13px] outline-none focus:border-sky-500 focus:bg-white" />
+          </div>
+        </div>
+
+        <div class="pt-2 flex gap-2">
+          <button type="button" onclick="closeModal('modal-add-med')" class="btn-secondary flex-1 py-2.5">Cancel</button>
+          <button type="submit" class="btn-primary flex-1 py-2.5">Save Medication</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: ARCHITECTURE & EXHIBITION PRESENTATION            -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="modal-architecture">
+    <div class="modal-sheet p-6 max-w-xl">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <div>
+          <h3 class="font-bold text-slate-900 text-lg">MediCheck AI - System Architecture</h3>
+          <span class="text-[12px] text-sky-600 font-semibold">Exhibition & Supervisor Technical Guide</span>
+        </div>
+        <button onclick="closeModal('modal-architecture')" class="text-slate-400 hover:text-slate-600">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-[13px] text-slate-700 leading-relaxed">
+        <p>
+          MediCheck AI solves two critical healthcare challenges without making unverified authenticity claims:
+          <strong>(1) Automating the extraction</strong> of small, printed medicine packaging labels, and 
+          <strong>(2) Cross-referencing active ingredients</strong> against a personal medication profile to alert users of duplicate dosing.
+        </p>
+
+        <div class="p-3 bg-slate-900 text-slate-200 rounded-xl font-mono text-[11.5px] leading-loose">
+          Flutter Mobile App (Client)<br/>
+          &nbsp;&nbsp;↓ POST image multipart/form-data<br/>
+          FastAPI Backend (Orchestration)<br/>
+          &nbsp;&nbsp;↓<br/>
+          OpenCV (Image Preprocessing: Noise Reduction & Binarization)<br/>
+          &nbsp;&nbsp;↓<br/>
+          YOLO (Object Detection: WHERE is the Name, Batch, Expiry?)<br/>
+          &nbsp;&nbsp;↓<br/>
+          EasyOCR (Character Recognition: WHAT do the regions say?)<br/>
+          &nbsp;&nbsp;↓<br/>
+          AI Structuring (Regex & NER mapping to JSON schema)<br/>
+          &nbsp;&nbsp;↓<br/>
+          Controlled Reference DB + Deterministic Rule Engine<br/>
+          &nbsp;&nbsp;↓<br/>
+          JSON Response with "Attention Required" / "Consistent Info"<br/>
+          &nbsp;&nbsp;↓<br/>
+          Flutter UI Verification & Duplicate Warning Screen
+        </div>
+
+        <div class="alert-box alert-info" style="margin: 0;">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+          <span class="text-[12px]">
+            <strong>Supervisor Talking Point:</strong> "We do not train YOLO from zero. We utilize a pretrained YOLO model fine-tuned on medicine packaging bounding boxes. EasyOCR handles text character extraction."
+          </span>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3 border-t flex justify-end">
+        <button onclick="closeModal('modal-architecture')" class="btn-primary px-5 py-2 text-[13px]">Close Architecture</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL: CHATBOT GUARDRAILS EXPLANATION                    -->
+  <!-- ======================================================== -->
+  <div class="modal-backdrop" id="modal-guardrails">
+    <div class="modal-sheet p-5">
+      <div class="flex items-center justify-between border-b pb-3 mb-3">
+        <h3 class="font-bold text-slate-900 text-[15px]">Chatbot Ethical Guardrails</h3>
+        <button onclick="closeModal('modal-guardrails')" class="text-slate-400">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="space-y-2 text-[12.5px] text-slate-600">
+        <p>The <strong>MediCheck AI Assistant</strong> is strictly programmed with the following limitations:</p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+          <li><strong>Never diagnoses diseases</strong> or conditions.</li>
+          <li><strong>Never prescribes medicines</strong> or dosage changes.</li>
+          <li><strong>Never tells users to take or stop</strong> taking medications.</li>
+          <li><strong>Never claims a medicine is 100% genuine or fake</strong>.</li>
+          <li><strong>Only explains data already extracted</strong> by the OCR and reference check.</li>
+        </ul>
+      </div>
+
+      <div class="mt-4 pt-3 border-t">
+        <button onclick="closeModal('modal-guardrails')" class="btn-primary w-full py-2.5 text-[13px]">Understood</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Engine -->
+  <script src="app.js"></script>
+</body>
+</html>
