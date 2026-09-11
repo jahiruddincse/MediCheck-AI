@@ -33,7 +33,7 @@ class SplashScreen extends StatelessWidget {
                       border: Border.all(color: Colors.white.withOpacity(0.15)),
                     ),
                     child: const Text(
-                      'AI CAPSTONE 2026',
+                      'DECISION SUPPORT',
                       style: TextStyle(
                         color: Color(0xFFBAE6FD),
                         fontSize: 10,

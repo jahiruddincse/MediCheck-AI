@@ -125,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
               child: const Column(
                 children: [
                   Text(
-                    'MediCheck AI • University Capstone Exhibition Prototype',
+                    'MediCheck AI • Decision-Support Platform v1.0',
                     style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.slate700),
                   ),
                   SizedBox(height: 2),

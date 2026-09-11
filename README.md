@@ -1,7 +1,7 @@
 # 🩺 MediCheck AI
 
 > **AI-Assisted Medicine Verification & Medication-Safety Decision Support Platform**  
-> *College AI/ML Capstone Project & Exhibition Prototype*
+> *Production-Ready Mobile Application & Interactive Prototype*
 
 ---
 
